@@ -1,3 +1,5 @@
+"""Operational admin endpoints for monitoring and manual worker triggers."""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -17,6 +19,8 @@ router = APIRouter(prefix="/admin")
 
 @router.get("/subscribers/summary", response_model=SubscriberSummaryResponse)
 def subscriber_summary(db: Session = Depends(get_db)) -> SubscriberSummaryResponse:
+    """Return aggregate subscriber counts by key WhatsApp states."""
+
     active = db.execute(select(func.count()).select_from(User).where(User.whatsapp_status == "active")).scalar_one()
     pending = db.execute(
         select(func.count()).select_from(User).where(User.whatsapp_status == "pending_opt_in")
@@ -29,6 +33,8 @@ def subscriber_summary(db: Session = Depends(get_db)) -> SubscriberSummaryRespon
 
 @router.get("/notifications/jobs", response_model=JobsHealthResponse)
 def notifications_jobs_health(db: Session = Depends(get_db)) -> JobsHealthResponse:
+    """Return queue health counts for notification jobs."""
+
     queued = db.execute(select(func.count()).select_from(NotificationJob).where(NotificationJob.status == "queued")).scalar_one()
     processing = db.execute(
         select(func.count()).select_from(NotificationJob).where(NotificationJob.status == "processing")
@@ -42,17 +48,23 @@ def notifications_jobs_health(db: Session = Depends(get_db)) -> JobsHealthRespon
 
 @router.post("/poll-live")
 def trigger_poll_live(db: Session = Depends(get_db)) -> dict[str, int]:
+    """Trigger one polling cycle for live match goal events."""
+
     created_jobs = poll_live_matches(db, SportsClient())
     return {"created_jobs": created_jobs}
 
 
 @router.post("/process-notifications")
 def trigger_process_notifications(db: Session = Depends(get_db)) -> dict[str, int]:
+    """Process currently due notification jobs immediately."""
+
     return process_due_jobs(db, HighlightResolver(), SportsClient(), WhatsAppClient())
 
 
 @router.get("/matches/live")
 def get_live_matches(db: Session = Depends(get_db)) -> list[dict]:
+    """Return matches currently marked as live or in-progress."""
+
     live = list(db.execute(select(Match).where(Match.status.in_(["live", "in_progress"]))).scalars().all())
     return [
         {

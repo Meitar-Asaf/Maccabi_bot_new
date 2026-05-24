@@ -1,3 +1,5 @@
+"""Notification orchestration service for delayed highlight and WhatsApp fan-out."""
+
 import json
 from datetime import datetime, timedelta
 
@@ -12,6 +14,8 @@ from app.models.user import User
 
 
 def _compose_message(event: MatchEvent, stats: dict, highlight_url: str | None) -> str:
+    """Compose a compact goal update text for outbound WhatsApp delivery."""
+
     scoreline = stats.get("scoreline", "Live score unavailable")
     return (
         f"GOAL! {event.scorer_name or 'Unknown scorer'} ({event.minute or '?'}')\n"
@@ -27,6 +31,8 @@ def process_due_jobs(
     sports_client: SportsClient,
     whatsapp_client: WhatsAppClient,
 ) -> dict[str, int]:
+    """Process due jobs, retry missing highlights, and persist per-user deliveries."""
+
     now = datetime.utcnow()
     jobs = list(
         db.execute(

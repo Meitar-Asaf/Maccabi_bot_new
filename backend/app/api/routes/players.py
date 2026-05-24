@@ -1,3 +1,5 @@
+"""Public player-statistics endpoints consumed by the dashboard."""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -10,6 +12,8 @@ router = APIRouter(prefix="/players")
 
 @router.get("/active", response_model=list[PlayerCardResponse])
 def get_active_players(db: Session = Depends(get_db)) -> list[PlayerCardResponse]:
+    """Return player cards for active, non-loaned squad members."""
+
     players = list_active_players(db)
     return [
         PlayerCardResponse(

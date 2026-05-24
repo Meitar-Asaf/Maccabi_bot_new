@@ -1,3 +1,5 @@
+"""SQLAlchemy engine, base model class, and session dependency helpers."""
+
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
@@ -7,6 +9,8 @@ from app.core.config import settings
 
 
 class Base(DeclarativeBase):
+    """Declarative base for all ORM models."""
+
     pass
 
 
@@ -15,6 +19,8 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, clas
 
 
 def get_db() -> Generator[Session, None, None]:
+    """Yield a database session for request-scoped dependency injection."""
+
     db = SessionLocal()
     try:
         yield db

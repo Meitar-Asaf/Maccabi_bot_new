@@ -1,7 +1,10 @@
+"""Centralized runtime configuration loaded from environment variables."""
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Application settings used by API, workers, and integrations."""
     app_name: str = "Maccabi Fan Platform API"
     api_prefix: str = "/api"
     environment: str = "development"

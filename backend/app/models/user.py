@@ -1,3 +1,5 @@
+"""ORM model for fan subscribers and opt-in/opt-out state."""
+
 from datetime import datetime
 from uuid import uuid4
 
@@ -9,6 +11,8 @@ from app.core.database import Base
 
 
 class User(Base):
+    """Subscriber entity used for WhatsApp delivery eligibility and audit fields."""
+
     __tablename__ = "users"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))

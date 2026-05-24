@@ -1,3 +1,5 @@
+"""Subscription domain services for fan opt-in and opt-out state."""
+
 from datetime import datetime
 
 from sqlalchemy import select
@@ -7,6 +9,8 @@ from app.models.user import User
 
 
 def upsert_subscription(db: Session, phone_e164: str, display_name: str | None) -> User:
+    """Create or refresh a subscriber record and return the persisted user."""
+
     stmt = select(User).where(User.phone_e164 == phone_e164)
     user = db.execute(stmt).scalar_one_or_none()
 
@@ -30,6 +34,8 @@ def upsert_subscription(db: Session, phone_e164: str, display_name: str | None) 
 
 
 def unsubscribe(db: Session, phone_e164: str) -> User | None:
+    """Set a subscriber status to unsubscribed, if found."""
+
     stmt = select(User).where(User.phone_e164 == phone_e164)
     user = db.execute(stmt).scalar_one_or_none()
     if user is None:

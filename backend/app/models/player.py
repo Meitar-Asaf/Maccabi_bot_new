@@ -1,3 +1,5 @@
+"""ORM model for squad players and season statistics."""
+
 from datetime import datetime
 from uuid import uuid4
 
@@ -9,6 +11,8 @@ from app.core.database import Base
 
 
 class Player(Base):
+    """Player entity powering the active player statistics dashboard."""
+
     __tablename__ = "players"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))

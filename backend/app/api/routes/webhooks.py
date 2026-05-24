@@ -1,3 +1,5 @@
+"""Inbound webhook endpoints for external messaging providers."""
+
 from datetime import datetime
 
 from fastapi import APIRouter, Depends
@@ -12,12 +14,16 @@ router = APIRouter(prefix="/webhooks")
 
 
 class WhatsAppInboundPayload(BaseModel):
+    """Inbound WhatsApp message payload used for keyword-based opt flow."""
+
     phone_e164: str
     message_text: str
 
 
 @router.post("/whatsapp/inbound")
 def whatsapp_inbound(payload: WhatsAppInboundPayload, db: Session = Depends(get_db)) -> dict[str, str]:
+    """Handle inbound WhatsApp keywords and update subscription status."""
+
     normalized = payload.message_text.strip().lower()
     user = db.execute(select(User).where(User.phone_e164 == payload.phone_e164)).scalar_one_or_none()
 

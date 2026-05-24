@@ -1,3 +1,5 @@
+"""ORM models for live matches, events, delayed jobs, and message deliveries."""
+
 from datetime import datetime
 from uuid import uuid4
 
@@ -9,6 +11,8 @@ from app.core.database import Base
 
 
 class Match(Base):
+    """Tracked match state synchronized from external sports providers."""
+
     __tablename__ = "matches"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))
@@ -26,6 +30,8 @@ class Match(Base):
 
 
 class MatchEvent(Base):
+    """Normalized per-match events (e.g., goals) with provider dedupe keys."""
+
     __tablename__ = "match_events"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))
@@ -41,6 +47,8 @@ class MatchEvent(Base):
 
 
 class NotificationJob(Base):
+    """Delayed notification job created for each goal event."""
+
     __tablename__ = "notification_jobs"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))
@@ -57,6 +65,8 @@ class NotificationJob(Base):
 
 
 class MessageDelivery(Base):
+    """Per-user outbound delivery record for one notification job."""
+
     __tablename__ = "message_deliveries"
 
     id: Mapped[str] = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid4()))

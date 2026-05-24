@@ -1,3 +1,5 @@
+"""Live match polling service that deduplicates goal events and schedules delayed jobs."""
+
 import json
 from datetime import datetime, timedelta
 
@@ -10,6 +12,8 @@ from app.models.match_tracking import Match, MatchEvent, NotificationJob
 
 
 def poll_live_matches(db: Session, sports_client: SportsClient) -> int:
+    """Poll provider events and create one delayed notification job per new goal event."""
+
     events = sports_client.fetch_live_goals()
     created_jobs = 0
 

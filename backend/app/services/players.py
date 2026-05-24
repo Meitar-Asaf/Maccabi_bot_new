@@ -1,3 +1,5 @@
+"""Player query services used by the public dashboard."""
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -5,6 +7,8 @@ from app.models.player import Player
 
 
 def list_active_players(db: Session) -> list[Player]:
+    """Return only active players that are not loaned out."""
+
     stmt = (
         select(Player)
         .where(Player.is_active.is_(True), Player.is_loaned_out.is_(False))
