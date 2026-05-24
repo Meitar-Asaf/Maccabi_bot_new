@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: maccabi-fan-api
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash render-start.sh
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: API_PREFIX
+        value: /api
+      - key: HIGHLIGHT_SEARCH_DELAY_SECONDS
+        value: "120"
+      - key: MATCH_POLL_INTERVAL_SECONDS
+        value: "60"
+
+  - type: cron
+    name: maccabi-poll-live
+    env: python
+    rootDir: backend
+    schedule: "*/1 * * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.workers.run_poll_once
+
+  - type: cron
+    name: maccabi-process-notifications
+    env: python
+    rootDir: backend
+    schedule: "*/1 * * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.workers.run_notifications_once

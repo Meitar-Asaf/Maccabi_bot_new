@@ -1,0 +1,91 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #0f1115;
+  color: #e7ecf3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #262b36;
+}
+
+.header nav {
+  display: flex;
+  gap: 12px;
+}
+
+.header a {
+  color: #9ec5ff;
+  text-decoration: none;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.panel {
+  border: 1px solid #262b36;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #171b24;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #3c4558;
+  background: #0f1115;
+  color: #e7ecf3;
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #2e7df7;
+  color: white;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.player-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.muted {
+  color: #9aa6bd;
+}
