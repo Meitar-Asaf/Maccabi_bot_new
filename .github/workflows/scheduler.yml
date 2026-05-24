@@ -1,0 +1,26 @@
+name: Scheduler
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run-background-flows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger poll-live
+        env:
+          BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+        run: |
+          if [ -z "$BACKEND_BASE_URL" ]; then
+            echo "BACKEND_BASE_URL secret is missing"
+            exit 1
+          fi
+          curl -fsS -X POST "$BACKEND_BASE_URL/api/admin/poll-live"
+
+      - name: Trigger process-notifications
+        env:
+          BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+        run: |
+          curl -fsS -X POST "$BACKEND_BASE_URL/api/admin/process-notifications"

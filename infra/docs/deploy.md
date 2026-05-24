@@ -11,6 +11,12 @@
    - `006_message_deliveries.sql`
 3. Copy your Postgres connection string.
 
+Optional (PowerShell, one command):
+```powershell
+$env:DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/postgres?sslmode=require"
+./infra/scripts/apply_schema.ps1
+```
+
 Example providers:
 - Supabase (Postgres)
 - Neon (Postgres)
@@ -33,6 +39,14 @@ Example providers:
    - `https://<render-app>/health`
    - `https://<render-app>/api/players/active`
 
+## 2.1) Free scheduling via GitHub Actions (instead of Render Cron)
+1. In GitHub repo settings, add secret:
+   - `BACKEND_BASE_URL` = `https://<render-app>`
+2. Workflow file `.github/workflows/scheduler.yml` triggers every 5 minutes:
+   - `POST /api/admin/poll-live`
+   - `POST /api/admin/process-notifications`
+3. You can also run it manually from GitHub Actions using `workflow_dispatch`.
+
 ## 3) Frontend on Vercel
 1. Import the same GitHub repo in Vercel.
 2. Set **Root Directory** to `frontend`.
@@ -47,5 +61,5 @@ Example providers:
 - Process jobs (manual): `POST /api/admin/process-notifications`
 
 ## Notes
-- Render cron services in `render.yaml` run poll + notification workers each minute.
+- Scheduler is handled by GitHub Actions every 5 minutes for a no-cost path.
 - WhatsApp and some sports APIs may still have usage costs in production.
