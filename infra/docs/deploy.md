@@ -1,7 +1,7 @@
 # Cloud Deployment (No local runtime)
 
-## 1) Supabase (DB)
-1. Create a free Supabase project.
+## 1) PostgreSQL (DB)
+1. Create a PostgreSQL database (provider of your choice).
 2. Run SQL files in order from `infra/schema`:
    - `001_users.sql`
    - `002_players.sql`
@@ -9,13 +9,19 @@
    - `004_match_events.sql`
    - `005_notification_jobs.sql`
    - `006_message_deliveries.sql`
-3. Copy your Supabase Postgres connection string.
+3. Copy your Postgres connection string.
+
+Example providers:
+- Supabase (Postgres)
+- Neon (Postgres)
+- Render Postgres
+- Any managed PostgreSQL service
 
 ## 2) Backend on Render
 1. Connect your GitHub repo to Render.
 2. Render will auto-detect `render.yaml` in project root.
 3. In `maccabi-fan-api` environment variables, set:
-   - `DATABASE_URL` = Supabase SQLAlchemy URL format, e.g.
+   - `DATABASE_URL` = SQLAlchemy Postgres URL format, e.g.
      `postgresql+psycopg://USER:PASSWORD@HOST:5432/postgres`
    - `SPORTS_API_BASE_URL`
    - `SPORTS_API_KEY`

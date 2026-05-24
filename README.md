@@ -3,12 +3,12 @@
 Monorepo for:
 - `backend` (FastAPI + async workers)
 - `frontend` (React + Vite)
-- `infra` (Supabase SQL schema and deployment notes)
+- `infra` (PostgreSQL schema and deployment notes)
 
 ## Stack
 - Python 3.12+, FastAPI, SQLAlchemy, Alembic-ready structure
 - React + TypeScript + Vite
-- PostgreSQL (Supabase)
+- PostgreSQL (any provider: local, Supabase, Neon, Render, etc.)
 
 ## Quick start
 ### 1) Backend
@@ -28,7 +28,7 @@ npm run dev
 ```
 
 ### 3) Database
-Run SQL files in `infra/schema` against your Supabase project in this order:
+Run SQL files in `infra/schema` against your PostgreSQL database in this order:
 1. `001_users.sql`
 2. `002_players.sql`
 3. `003_matches.sql`
