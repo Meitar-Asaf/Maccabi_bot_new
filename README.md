@@ -41,8 +41,9 @@ Run SQL files in `infra/schema` against your PostgreSQL database in this order:
 - Highlights are handled as URL/link references only.
 
 ## Cloud deploy
-- Backend/worker deploy descriptor: `render.yaml`
-- Frontend deploy config: `frontend/vercel.json`
+- Backend Vercel config: `backend/vercel.json`
+- Backend entrypoint for Vercel: `backend/api/index.py`
+- Frontend Vercel config: `frontend/vercel.json`
 - Step-by-step guide: `infra/docs/deploy.md`
 
 ## Documentation Index
