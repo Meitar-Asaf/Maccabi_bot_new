@@ -44,3 +44,12 @@ Run SQL files in `infra/schema` against your PostgreSQL database in this order:
 - Backend/worker deploy descriptor: `render.yaml`
 - Frontend deploy config: `frontend/vercel.json`
 - Step-by-step guide: `infra/docs/deploy.md`
+
+## Documentation Index
+- System architecture: `docs/ARCHITECTURE.md`
+- API reference: `docs/API_REFERENCE.md`
+- Database reference: `docs/DATABASE.md`
+- Environment variables: `docs/ENVIRONMENT_VARIABLES.md`
+- Operations runbook: `docs/OPERATIONS.md`
+- Backend quick guide: `backend/README.md`
+- Frontend quick guide: `frontend/README.md`
